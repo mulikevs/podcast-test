@@ -1,32 +1,25 @@
-name: Deploy Laravel Project on push
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ] 
+name: Generate Podcast Feeds
+on: [push]
 jobs:
   build:
-    name: Deploying
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Hii Repo
-      - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v3
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install Dependancies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyyaml
-      -  name: Run Feed Generator
-         run: python feed.py
-      -  name: Push Repo
-         run: |
-           git config user.name github-actions-sitemapdev
-           git config user.email mulikevs@gmail.com
-           git add .
-           git commit -m "modified podcast feed"
-           git push
-      
-          
+      - name: Run Feed Generator
+        run: python feed.py
+      - name: Push Repo
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Modified Feed"
+          git push
